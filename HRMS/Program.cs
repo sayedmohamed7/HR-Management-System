@@ -1,4 +1,6 @@
 using HRMS.DependencyInjection;
+using HRMS.Interfaces.Services;
+using HRMS.Services.Impelmentation;
 
 namespace HRMS
 {
@@ -14,6 +16,12 @@ namespace HRMS
             // Add custom services
             builder.Services.AddDataAccessServices(builder.Configuration);
 
+
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            builder.Services.AddScoped<IDepartmentServices, DepartmentServices>();
+
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            builder.Services.AddScoped<IEmployeeServices, EmployeeServices>();
 
             var app = builder.Build();
 

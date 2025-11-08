@@ -13,7 +13,7 @@ namespace HRMS.Repositories;
 public class GenericRepository<T> : IGenericRepository<T> where T : class
 {
     private readonly ApplicationDbContext _context;
-    private readonly DbSet<T> _dbSet;
+    public readonly DbSet<T> _dbSet;
     public GenericRepository(ApplicationDbContext context)
     {
         _context = context;

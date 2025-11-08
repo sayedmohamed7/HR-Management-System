@@ -9,4 +9,5 @@ namespace HRMS.Interfaces;
 
 public interface IEmployeeRepository : IGenericRepository<Employee>
 {
+    Task<IEnumerable<Employee>> GetEmployeesByDepartmentAsync(int departmentId);
 }
