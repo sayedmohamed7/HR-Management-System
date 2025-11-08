@@ -1,11 +1,11 @@
 ﻿using HRMS.Interfaces.Services;
-using HRMS.ViewModels.Department;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HRMS.Controllers
 {
+    [Authorize(Roles = "Admin,HR,Employee")]
     public class DepartmentController : Controller
     {
         private readonly IDepartmentServices _deptService;
