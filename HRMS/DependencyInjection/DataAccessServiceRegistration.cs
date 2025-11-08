@@ -23,6 +23,7 @@ public static class DataAccessServiceRegistration
            .EnableSensitiveDataLogging(true));
 
 
+
         services.AddIdentity<ApplicationUser, IdentityRole>(options =>
         {
             options.Password.RequireDigit = true;

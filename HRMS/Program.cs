@@ -30,7 +30,6 @@ namespace HRMS
                     logger.LogError(ex, "An error occurred while seeding roles.");
                 }
             }
-            // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
