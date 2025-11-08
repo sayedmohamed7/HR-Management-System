@@ -4,7 +4,7 @@ namespace HRMS
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +17,19 @@ namespace HRMS
 
             var app = builder.Build();
 
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                try
+                {
+                    await HRMS.Data.RoleSeeder.SeedRolesAsync(services);
+                }
+                catch (Exception ex)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error occurred while seeding roles.");
+                }
+            }
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {

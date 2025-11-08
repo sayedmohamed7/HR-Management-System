@@ -5,7 +5,7 @@ namespace HRMS.ViewModels
     public class LoginViewModel
     {
         [Required(ErrorMessage = "Username or Email is required")]
-        [Display(Name = "Username or Email")]
+        [Display(Name = "Enter Your Username or Email")]
         public string UsernameOrEmail { get; set; }
 
         [Required(ErrorMessage = "Password is required")]
