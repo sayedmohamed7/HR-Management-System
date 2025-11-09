@@ -19,5 +19,6 @@ public interface IUnitOfWork: IDisposable
     IPayslipDetailRepository PayslipDetail { get; }
     IPayslipRepository Payslip { get; }
     ISalaryComponentRepository SalaryComponent { get; }
+    
     Task<int> SaveChangesAsync();
 }

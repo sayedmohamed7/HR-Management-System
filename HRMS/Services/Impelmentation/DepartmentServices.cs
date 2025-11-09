@@ -5,29 +5,61 @@ namespace HRMS.Services.Impelmentation
 {
     public class DepartmentServices : IDepartmentServices
     {
-        public Task<Department> AddAsync(Department department)
+        private readonly IDepartmentRepository _deptRepo;
+
+        public DepartmentServices(IDepartmentRepository deptRepo)
         {
-            throw new NotImplementedException();
+            _deptRepo = deptRepo;
         }
 
-        public Task<bool> DeleteAsync(int id)
+        public async Task<IEnumerable<Department>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var includes = new string[] { "Manager" };
+            
+            return await _deptRepo.FindAllAsync(criteria: null, includes: includes);
         }
 
-        public Task<IEnumerable<Department>> GetAllAsync()
+        public async Task<Department?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var includes = new string[] { "Manager" };
+            return await _deptRepo.FindAsync(d => d.DepartmentID == id, includes);
         }
 
-        public Task<Department?> GetByIdAsync(int id)
+        public async Task<Department> AddAsync(Department department)
         {
-            throw new NotImplementedException();
+            return await _deptRepo.AddAsync(department);
         }
 
-        public Task<bool> UpdateAsync(Department department)
+        public async Task<bool> UpdateAsync(Department department)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _deptRepo.UpdateAsync(department);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var department = await _deptRepo.GetByIdAsync(id);
+            if (department == null)
+            {
+                return false;
+            }
+
+            try
+            {
+                await _deptRepo.DeleteAsync(department);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
