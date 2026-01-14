@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics;
 
 namespace HRMS.DependencyInjection;
 
@@ -16,7 +17,12 @@ public static class DataAccessServiceRegistration
     public static IServiceCollection AddDataAccessServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("CS")));
+            options.UseSqlServer(configuration.GetConnectionString("CS"))
+            .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+           .LogTo(log => Debug.WriteLine(log), LogLevel.Information)
+           .EnableSensitiveDataLogging(true));
+
+
 
         services.AddIdentity<ApplicationUser, IdentityRole>(options =>
         {
@@ -60,6 +66,12 @@ public static class DataAccessServiceRegistration
         services.AddScoped<IPayslipDetailServices, PayslipDetailServices>();
         services.AddScoped<IPayslipServices, PayslipServices>();
         services.AddScoped<ISalaryComponentServices, SalaryComponentServices>();
+        services.AddScoped<IAccountService, AccountServic>();
+        services.Configure<IdentityOptions>(options => {
+            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
+            options.Lockout.MaxFailedAccessAttempts = 5;
+            options.Lockout.AllowedForNewUsers = true;
+        });
 
         return services;
     }
